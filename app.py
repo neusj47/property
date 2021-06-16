@@ -16,7 +16,7 @@ import dash_bootstrap_components as dbc
 
 df = pd.read_csv('C:/Users\ysj/PycharmProjects/property/전국부동산.csv', encoding='CP949')
 
-start_date = '20190110'
+start_date = '20180101'
 end_date = '20210607'
 dff = df[(df['구분'] >= start_date) & (df['구분'] <= end_date)]
 dff.reset_index(drop=True)
@@ -69,17 +69,17 @@ app.layout = html.Div([
 # 입력된 Input으로 Output이 만들어지는 Call back 함수입니다.
 # Input : DATE
 # Output : 지역별 가격지수
-# @app.callback(
-#     Output('my-graph', 'figure'),
-#     [Input('my-date-picker-range', 'start_date'),
-#      Input('my-date-picker-range', 'end_date')])
-# def update_graph(start_date, end_date):
-#     dff = df[(df['구분'] >= start_date) & (df['구분'] <= end_date)]
-#     dff.reset_index(drop=True)
-#     dff = pd.melt(dff, id_vars=['구분'], var_name='지역', value_name='Index')
-#     fig = px.line(dff, x= '구분', y='Index', color = '지역')
-#
-#     return fig
+@app.callback(
+    Output('my-graph', 'figure'),
+    [Input('my-date-picker-range', 'start_date'),
+     Input('my-date-picker-range', 'end_date')])
+def update_graph(start_date, end_date):
+    dff = df[(df['구분'] >= start_date) & (df['구분'] <= end_date)]
+    dff.reset_index(drop=True)
+    dff = pd.melt(dff, id_vars=['구분'], var_name='지역', value_name='Index')
+    fig = px.line(dff, x='구분', y='Index', color='지역')
+
+    return fig
 
 
 
